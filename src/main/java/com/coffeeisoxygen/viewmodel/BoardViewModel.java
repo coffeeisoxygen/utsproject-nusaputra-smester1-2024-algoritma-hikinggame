@@ -9,13 +9,13 @@ public class BoardViewModel implements BoardObserver {
     private Board board;
     private BoardManager boardManager;
 
-    public BoardViewModel(Board board, BoardManager boardManager) {
+    public BoardViewModel(Board board) {
         this.board = board;
-        this.boardManager = boardManager;
-        registerObserver();
+        this.boardManager = new BoardManager(board);
+        initializeObserver();
     }
 
-    public void registerObserver() {
+    private void initializeObserver() {
         this.board.addObserver(this);
     }
 

@@ -3,59 +3,48 @@ package com.coffeeisoxygen.implementations;
 import java.util.Random;
 
 import com.coffeeisoxygen.interfaces.IBoardManager;
+import com.coffeeisoxygen.model.tiles.Board;
 import com.coffeeisoxygen.model.tiles.Tile;
 import com.coffeeisoxygen.model.tiles.TileType;
 
 public class BoardManager implements IBoardManager {
-    private Tile[][] board;
-    private int width, height;
+    private Board board;
 
-    @Override
-    public void initializeBoard(int width, int height) {
-        this.width = width;
-        this.height = height;
-        board = new Tile[width][height];
-
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                board[i][j] = createTile(i, j, TileType.ROUTETILE);
-            }
-        }
-        setTile(0, 0, TileType.FINISHTILE);
-        setTile(width - 1, height - 1, TileType.STARTTILE);
+    public BoardManager(Board board) {
+        this.board = board;
     }
 
     @Override
-    public void initializeTiles(int width, int height) {
+    public void initializeBoard(int width, int height) {
+        board = new Board(width, height);
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                board[i][j] = createTile(i, j, TileType.ROUTETILE);
+                board.setTile(i, j, createTile(i, j, TileType.ROUTETILE));
             }
         }
+        board.setTile(0, 0, createTile(0, 0, TileType.FINISHTILE));
+        board.setTile(width - 1, height - 1, createTile(width - 1, height - 1, TileType.STARTTILE));
     }
 
     @Override
     public void setTile(int x, int y, TileType tileType) {
-        board[x][y] = createTile(x, y, tileType);
+        board.setTile(x, y, createTile(x, y, tileType));
     }
 
     @Override
     public Tile getTile(int x, int y) {
-        if (x >= 0 && x < width && y >= 0 && y < height) {
-            return board[x][y];
-        }
-        return null;
+        return board.getTile(x, y);
     }
 
     @Override
     public boolean validateBoard() {
         int startCount = 0;
         int finishCount = 0;
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                if (board[i][j].getTileType() == TileType.STARTTILE)
+        for (int i = 0; i < board.getBoardWidth(); i++) {
+            for (int j = 0; j < board.getBoardHeight(); j++) {
+                if (board.getTile(i, j).getTileType() == TileType.STARTTILE)
                     startCount++;
-                if (board[i][j].getTileType() == TileType.FINISHTILE)
+                if (board.getTile(i, j).getTileType() == TileType.FINISHTILE)
                     finishCount++;
             }
         }
@@ -67,9 +56,9 @@ public class BoardManager implements IBoardManager {
         Random random = new Random();
         int placed = 0;
         while (placed < count) {
-            int x = random.nextInt(width);
-            int y = random.nextInt(height);
-            if (board[x][y].getTileType() == TileType.ROUTETILE) {
+            int x = random.nextInt(board.getBoardWidth());
+            int y = random.nextInt(board.getBoardHeight());
+            if (board.getTile(x, y).getTileType() == TileType.ROUTETILE) {
                 setTile(x, y, tileType);
                 placed++;
             }
@@ -78,9 +67,9 @@ public class BoardManager implements IBoardManager {
 
     @Override
     public void printBoard() {
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                System.out.print(board[i][j].getTileType().name().charAt(0) + " ");
+        for (int i = 0; i < board.getBoardWidth(); i++) {
+            for (int j = 0; j < board.getBoardHeight(); j++) {
+                System.out.print(board.getTile(i, j).getTileType().name().charAt(0) + " ");
             }
             System.out.println();
         }
