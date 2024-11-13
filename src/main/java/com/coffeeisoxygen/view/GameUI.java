@@ -6,14 +6,12 @@ import java.awt.Dimension;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
-import com.coffeeisoxygen.model.tiles.Board;
 import com.coffeeisoxygen.viewmodel.BoardViewModel;
 
 public class GameUI {
     public static void initialize() {
-        // Initialize the board with default dimensions
-        Board board = new Board();
-        BoardViewModel viewModel = new BoardViewModel(board);
+        // Initialize the BoardViewModel with default dimensions
+        BoardViewModel viewModel = new BoardViewModel(5, 8);
 
         // Create UI components
         MainFrame mainFrame = new MainFrame();

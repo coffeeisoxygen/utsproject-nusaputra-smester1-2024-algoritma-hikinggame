@@ -3,7 +3,6 @@ package com.coffeeisoxygen.viewmodel;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.coffeeisoxygen.manager.BoardManager;
 import com.coffeeisoxygen.interfaces.BoardObserver;
 import com.coffeeisoxygen.model.tiles.Board;
 import com.coffeeisoxygen.model.tiles.Tile;
@@ -11,20 +10,15 @@ import com.coffeeisoxygen.model.tiles.TileType;
 
 public class BoardViewModel implements BoardObserver {
     private Board board;
-    private BoardManager boardManager;
     private List<Runnable> observers = new ArrayList<>();
 
-    public BoardViewModel(Board board) {
-        this.board = board;
-        this.boardManager = new BoardManager(board);
-    }
-
-    public void initialize() {
+    public BoardViewModel(int width, int height) {
+        this.board = new Board(width, height);
         this.board.addObserver(this);
     }
 
     public void initializeBoard(int width, int height) {
-        boardManager.initializeBoard(width, height);
+        board.initialize(width, height);
         notifyObservers();
     }
 
@@ -42,6 +36,24 @@ public class BoardViewModel implements BoardObserver {
 
     public Tile getTile(int x, int y) {
         return board.getTile(x, y);
+    }
+
+    public void setTile(int x, int y, TileType tileType) {
+        board.setTile(x, y, new Tile(x, y, tileType));
+        notifyObservers();
+    }
+
+    public boolean validateBoard() {
+        return board.validateBoard();
+    }
+
+    public void shuffleTiles(TileType tileType, int count) {
+        board.shuffleTiles(tileType, count);
+        notifyObservers();
+    }
+
+    public void printBoard() {
+        board.printBoard();
     }
 
     @Override
