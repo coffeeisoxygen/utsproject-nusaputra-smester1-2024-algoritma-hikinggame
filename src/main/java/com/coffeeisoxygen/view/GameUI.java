@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
+import com.coffeeisoxygen.implementations.BoardManager;
 import com.coffeeisoxygen.model.tiles.Board;
 import com.coffeeisoxygen.viewmodel.BoardViewModel;
 
@@ -13,12 +14,13 @@ public class GameUI {
     public static void initialize() {
         // Initialize the board with tiles
         Board board = new Board(5, 8);
-        BoardViewModel viewModel = new BoardViewModel(board);
+        BoardManager boardManager = new BoardManager();
+        BoardViewModel viewModel = new BoardViewModel(board, boardManager);
 
         // Create UI components
         MainFrame mainFrame = new MainFrame();
         MapPanel mapPanel = new MapPanel(viewModel);
-        ControlPanel controlPanel = new ControlPanel();
+        ControlPanel controlPanel = new ControlPanel(viewModel);
         StatusPanel statusPanel = new StatusPanel();
         LegendPanel legendPanel = new LegendPanel();
 

@@ -1,18 +1,26 @@
 package com.coffeeisoxygen.viewmodel;
 
+import com.coffeeisoxygen.implementations.BoardManager;
 import com.coffeeisoxygen.interfaces.BoardObserver;
 import com.coffeeisoxygen.model.tiles.Board;
 import com.coffeeisoxygen.model.tiles.Tile;
 
 public class BoardViewModel implements BoardObserver {
     private Board board;
+    private BoardManager boardManager;
 
-    public BoardViewModel(Board board) {
+    public BoardViewModel(Board board, BoardManager boardManager) {
         this.board = board;
+        this.boardManager = boardManager;
+        registerObserver();
     }
 
-    public void initialize() {
+    public void registerObserver() {
         this.board.addObserver(this);
+    }
+
+    public void initializeBoard(int width, int height) {
+        boardManager.initializeBoard(width, height);
     }
 
     public Tile[][] getTiles() {
