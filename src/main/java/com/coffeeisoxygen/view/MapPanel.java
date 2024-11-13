@@ -60,14 +60,14 @@ public class MapPanel extends JPanel {
         if (tile == null) {
             return Color.WHITE;
         }
-        switch (tile.getTileType()) {
-            case STARTTILE: return Color.GREEN;
-            case FINISHTILE: return Color.RED;
-            case SAFETILE: return Color.BLUE;
-            case DANGERTILE: return Color.ORANGE;
-            case ROUTETILE: return Color.GRAY;
-            default: return Color.WHITE;
-        }
+        return switch (tile.getTileType()) {
+            case STARTTILE -> Color.GREEN;
+            case FINISHTILE -> Color.RED;
+            case SAFETILE -> Color.BLUE;
+            case DANGERTILE -> Color.ORANGE;
+            case ROUTETILE -> Color.GRAY;
+            default -> Color.WHITE;
+        };
     }
 
     private void shuffleTileType(int x, int y) {
@@ -75,14 +75,14 @@ public class MapPanel extends JPanel {
         if (tile != null) {
             // Acak TileType (Selain STARTTILE dan FINISHTILE)
             TileType newTileType = randomizeTileType();
-            viewModel.setTile(x, y, newTileType);  // Update di viewModel
+            viewModel.setTile(x, y, newTileType); // Update di viewModel
             buttons[x][y].setBackground(getTileColor(viewModel.getTile(x, y))); // Update tampilan tombol
         }
     }
 
     private TileType randomizeTileType() {
         // Mengacak antara DANGERTILE, SAFETILE, dan ROUTETILE
-        TileType[] tileTypes = {TileType.DANGERTILE, TileType.SAFETILE, TileType.ROUTETILE};
+        TileType[] tileTypes = { TileType.DANGERTILE, TileType.SAFETILE, TileType.ROUTETILE };
         int randomIndex = (int) (Math.random() * tileTypes.length);
         return tileTypes[randomIndex];
     }
