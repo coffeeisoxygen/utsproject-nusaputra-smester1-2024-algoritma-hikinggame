@@ -4,8 +4,6 @@ import com.coffeeisoxygen.model.tiles.Tile;
 import com.coffeeisoxygen.model.tiles.TileType;
 
 public interface IBoardManager {
-    Tile createTile(int x, int y, TileType tileType);
-    
     void initializeBoard(int width, int height); // Initialize board with default configuration
 
     void initializeTiles(int width, int height); // Initialize tiles with default configuration
@@ -20,5 +18,5 @@ public interface IBoardManager {
 
     void printBoard(); // Display board in text for debugging
 
-     // Create a tile of a specific type at a position
+    Tile createTile(int x, int y, TileType tileType); // Create a tile of a specific type at a position
 }

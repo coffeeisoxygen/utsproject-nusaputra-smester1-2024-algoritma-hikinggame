@@ -7,14 +7,8 @@ import com.coffeeisoxygen.model.tiles.Tile;
 import com.coffeeisoxygen.model.tiles.TileType;
 
 public class BoardManager implements IBoardManager {
-
     private Tile[][] board;
     private int width, height;
-    private IBoardManager tileFactory;
-
-    public BoardManager(IBoardManager tileFactory) {
-        this.tileFactory = tileFactory;
-    }
 
     @Override
     public void initializeBoard(int width, int height) {
@@ -22,11 +16,9 @@ public class BoardManager implements IBoardManager {
         this.height = height;
         board = new Tile[width][height];
 
-        // Inisialisasi dengan RouteTile di semua posisi, lalu tempatkan Start dan
-        // Finish
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                board[i][j] = tileFactory.createTile(i, j, TileType.ROUTETILE);
+                board[i][j] = createTile(i, j, TileType.ROUTETILE);
             }
         }
         setTile(0, 0, TileType.FINISHTILE);
@@ -37,14 +29,14 @@ public class BoardManager implements IBoardManager {
     public void initializeTiles(int width, int height) {
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                board[i][j] = tileFactory.createTile(i, j, TileType.ROUTETILE);
+                board[i][j] = createTile(i, j, TileType.ROUTETILE);
             }
         }
     }
 
     @Override
     public void setTile(int x, int y, TileType tileType) {
-        board[x][y] = tileFactory.createTile(x, y, tileType);
+        board[x][y] = createTile(x, y, tileType);
     }
 
     @Override
@@ -52,7 +44,7 @@ public class BoardManager implements IBoardManager {
         if (x >= 0 && x < width && y >= 0 && y < height) {
             return board[x][y];
         }
-        return null; // Return null jika di luar board
+        return null;
     }
 
     @Override
@@ -77,7 +69,7 @@ public class BoardManager implements IBoardManager {
         while (placed < count) {
             int x = random.nextInt(width);
             int y = random.nextInt(height);
-            if (board[x][y].getTileType() == TileType.ROUTETILE) { // Hanya ganti RouteTile
+            if (board[x][y].getTileType() == TileType.ROUTETILE) {
                 setTile(x, y, tileType);
                 placed++;
             }
@@ -96,6 +88,6 @@ public class BoardManager implements IBoardManager {
 
     @Override
     public Tile createTile(int x, int y, TileType tileType) {
-        return tileFactory.createTile(x, y, tileType);
+        return new Tile(x, y, tileType);
     }
 }

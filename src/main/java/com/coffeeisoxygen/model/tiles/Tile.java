@@ -1,46 +1,41 @@
 package com.coffeeisoxygen.model.tiles;
 
-/*
- * Author: A.Hasan Maki
- * GitHub: @coffeisoxygen
- * Date: 2024-11-12
- * File: Tile.java
- * Description: this is a abstract class for the tiles
- * the extended class will be : safeTile, dangerTile, routeTile, startTile, and finishTile
- */
-
 import com.coffeeisoxygen.model.player.Player;
 
-public abstract class Tile {
+public class Tile {
+    private int x;
+    private int y;
+    private TileType tileType;
 
-    protected int tileX;
-    protected int tileY;
-    protected TileType tileType;
-
-    // constructor
     public Tile(int x, int y, TileType tileType) {
-        this.tileX = x;
-        this.tileY = y;
+        this.x = x;
+        this.y = y;
         this.tileType = tileType;
     }
 
-    // getters
-    public int getTileX() {
-        return tileX;
+    public int getX() {
+        return x;
     }
 
-    public int getTileY() {
-        return tileY;
+    public int getY() {
+        return y;
     }
 
     public TileType getTileType() {
         return tileType;
     }
 
-    public String getTilePosition() {
-        return "(" + tileX + ", " + tileY + ")";
+    public String getPosition() {
+        return "(" + x + ", " + y + ")";
     }
 
-    public abstract void interact(Player player);
-
+    public void interact(Player player) {
+        switch (tileType) {
+            case SAFETILE -> System.out.println("You are safe");
+            case DANGERTILE -> System.out.println("You are in danger");
+            case ROUTETILE -> System.out.println("You are on the route");
+            case STARTTILE -> System.out.println("You are at the start");
+            case FINISHTILE -> System.out.println("You are at the finish");
+        }
+    }
 }
