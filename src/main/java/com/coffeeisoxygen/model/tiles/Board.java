@@ -56,6 +56,11 @@ public class Board {
         tiles[boardWidth - 1][boardHeight - 1] = new Tile(boardWidth - 1, boardHeight - 1, TileType.STARTTILE);
     }
 
+    public void resetTiles() {
+        setDefaultTiles();
+        notifyObservers();
+    }
+
     public void setTile(int x, int y, Tile tile) {
         if (isValidPosition(x, y)) {
             tiles[x][y] = tile;
@@ -80,23 +85,6 @@ public class Board {
         }
         return startCount == 1 && finishCount == 1;
     }
-
-    // public void shuffleTiles(TileType tileType, int count) {
-    // List<Tile> routeTiles = new ArrayList<>();
-    // for (int i = 0; i < boardWidth; i++) {
-    // for (int j = 0; j < boardHeight; j++) {
-    // if (tiles[i][j].getTileType() == TileType.ROUTETILE) {
-    // routeTiles.add(tiles[i][j]);
-    // }
-    // }
-    // }
-    // Collections.shuffle(routeTiles);
-    // for (int i = 0; i < count && i < routeTiles.size(); i++) {
-    // Tile tile = routeTiles.get(i);
-    // setTile(tile.getX(), tile.getY(), new Tile(tile.getX(), tile.getY(),
-    // tileType));
-    // }
-    // }
 
     public void randomizeTiles() {
         Random random = new Random();

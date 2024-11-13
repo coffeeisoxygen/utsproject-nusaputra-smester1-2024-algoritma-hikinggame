@@ -62,6 +62,10 @@ public class BoardViewModel implements BoardObserver {
         board.setTile(x, y, new Tile(x, y, tileType));
     }
 
+    public void resetMapTiles() {
+        board.resetTiles();
+    }
+
     public boolean validateBoardDimensions(int width, int height) {
         return width > 0 && width <= MAX_WIDTH && height > 0 && height <= MAX_HEIGHT;
     }

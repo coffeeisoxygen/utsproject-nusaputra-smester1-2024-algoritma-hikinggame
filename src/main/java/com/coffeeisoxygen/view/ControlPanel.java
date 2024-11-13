@@ -13,8 +13,9 @@ import com.coffeeisoxygen.viewmodel.BoardViewModel;
 public class ControlPanel extends JPanel {
 
     private final JButton generateMapButton;
-    private final JButton shuffleTileButton;
+    private final JButton randomizeMapTiles;
     private final JButton playerSetButton;
+    private final JButton resetTilesButton;
     private final JButton startButton;
     private final JButton resetButton;
     private final BoardViewModel viewModel;
@@ -24,13 +25,15 @@ public class ControlPanel extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         generateMapButton = createButton("Generate Map", this::handleGenerateMap);
-        shuffleTileButton = createButton("Randomize Tiles", this::RandomizeTiles);
+        randomizeMapTiles = createButton("Randomize Tiles", this::RandomizeTiles);
+        resetTilesButton = createButton("Reset Tiles", this::handleResetTiles);
         playerSetButton = createButton("Player Settings", this::handlePlayerSettings);
         startButton = createButton("Start", this::handleStart);
         resetButton = createButton("Reset", this::handleReset);
 
         add(generateMapButton);
-        add(shuffleTileButton);
+        add(randomizeMapTiles);
+        add(resetTilesButton);
         add(playerSetButton);
         add(startButton);
         add(resetButton);
@@ -74,6 +77,10 @@ public class ControlPanel extends JPanel {
 
     private void RandomizeTiles(ActionEvent e) {
         viewModel.randomizeTiles();
+    }
+
+    private void handleResetTiles(ActionEvent e) {
+        viewModel.resetMapTiles();
     }
 
     private void handlePlayerSettings(ActionEvent e) {
