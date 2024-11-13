@@ -1,30 +1,37 @@
-package com.coffeeisoxygen.implementations;
+package com.coffeeisoxygen.manager;
 
 import java.util.Random;
 
-import com.coffeeisoxygen.interfaces.IBoardManager;
 import com.coffeeisoxygen.model.tiles.Board;
 import com.coffeeisoxygen.model.tiles.Tile;
 import com.coffeeisoxygen.model.tiles.TileType;
 
-public class BoardManager implements IBoardManager {
+public class BoardManager {
     private Board board;
 
     public BoardManager(Board board) {
         this.board = board;
     }
 
-    @Override
+    public void initializeBoard(int width, int height) {
+        board.initialize(width, height);
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                board.setTile(i, j, createTile(i, j, TileType.ROUTETILE));
+            }
+        }
+        board.setTile(0, 0, createTile(0, 0, TileType.FINISHTILE));
+        board.setTile(width - 1, height - 1, createTile(width - 1, height - 1, TileType.STARTTILE));
+    }
+
     public void setTile(int x, int y, TileType tileType) {
         board.setTile(x, y, createTile(x, y, tileType));
     }
 
-    @Override
     public Tile getTile(int x, int y) {
         return board.getTile(x, y);
     }
 
-    @Override
     public boolean validateBoard() {
         int startCount = 0;
         int finishCount = 0;
@@ -39,7 +46,6 @@ public class BoardManager implements IBoardManager {
         return startCount == 1 && finishCount == 1;
     }
 
-    @Override
     public void shuffleTiles(TileType tileType, int count) {
         Random random = new Random();
         int placed = 0;
@@ -53,7 +59,6 @@ public class BoardManager implements IBoardManager {
         }
     }
 
-    @Override
     public void printBoard() {
         for (int i = 0; i < board.getBoardWidth(); i++) {
             for (int j = 0; j < board.getBoardHeight(); j++) {
@@ -63,7 +68,6 @@ public class BoardManager implements IBoardManager {
         }
     }
 
-    @Override
     public Tile createTile(int x, int y, TileType tileType) {
         return new Tile(x, y, tileType);
     }

@@ -11,10 +11,7 @@ public class Board {
     private List<BoardObserver> observers = new ArrayList<>();
 
     public Board(int width, int height) {
-        this.boardWidth = width;
-        this.boardHeight = height;
-        this.tiles = new Tile[width][height];
-        notifyObservers();
+        initialize(width, height);
     }
 
     public void initialize(int width, int height) {
@@ -28,10 +25,18 @@ public class Board {
         initialize(boardWidth, boardHeight);
     }
 
-    public void placeStartAndFinishTiles(Tile startTile, Tile finishTile) {
-        tiles[0][0] = finishTile;
-        tiles[boardWidth - 1][boardHeight - 1] = startTile;
-        notifyObservers();
+    public void setTile(int x, int y, Tile tile) {
+        if (x >= 0 && x < boardWidth && y >= 0 && y < boardHeight) {
+            tiles[x][y] = tile;
+            notifyObservers();
+        }
+    }
+
+    public Tile getTile(int x, int y) {
+        if (x >= 0 && x < boardWidth && y >= 0 && y < boardHeight) {
+            return tiles[x][y];
+        }
+        return null;
     }
 
     public Tile[][] getTiles() {
@@ -44,20 +49,6 @@ public class Board {
 
     public int getBoardHeight() {
         return boardHeight;
-    }
-
-    public Tile getTile(int x, int y) {
-        if (x >= 0 && x < boardWidth && y >= 0 && y < boardHeight) {
-            return tiles[x][y];
-        }
-        return null;
-    }
-
-    public void setTile(int x, int y, Tile tile) {
-        if (x >= 0 && x < boardWidth && y >= 0 && y < boardHeight) {
-            tiles[x][y] = tile;
-            notifyObservers();
-        }
     }
 
     public void addObserver(BoardObserver observer) {

@@ -3,7 +3,7 @@ package com.coffeeisoxygen.viewmodel;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.coffeeisoxygen.implementations.BoardManager;
+import com.coffeeisoxygen.manager.BoardManager;
 import com.coffeeisoxygen.interfaces.BoardObserver;
 import com.coffeeisoxygen.model.tiles.Board;
 import com.coffeeisoxygen.model.tiles.Tile;
@@ -19,14 +19,12 @@ public class BoardViewModel implements BoardObserver {
         this.boardManager = new BoardManager(board);
     }
 
-    public void registerObserver() {
+    public void initialize() {
         this.board.addObserver(this);
     }
 
     public void initializeBoard(int width, int height) {
-        board.initialize(width, height);
-        boardManager.setTile(width - 1, height - 1, TileType.STARTTILE);
-        boardManager.setTile(0, 0, TileType.FINISHTILE);
+        boardManager.initializeBoard(width, height);
         notifyObservers();
     }
 
