@@ -1,0 +1,16 @@
+F:\utsproject_4\hikinggame\src\main\java\com\coffeeisoxygen\model\tiles\StartTile.java
+F:\utsproject_4\hikinggame\src\main\java\com\coffeeisoxygen\App.java
+F:\utsproject_4\hikinggame\src\main\java\com\coffeeisoxygen\implementations\BoardServiceImpl.java
+F:\utsproject_4\hikinggame\src\main\java\com\coffeeisoxygen\interfaces\BoardObserver.java
+F:\utsproject_4\hikinggame\src\main\java\com\coffeeisoxygen\model\tiles\Tile.java
+F:\utsproject_4\hikinggame\src\main\java\com\coffeeisoxygen\viewmodel\BoardViewModel.java
+F:\utsproject_4\hikinggame\src\main\java\com\coffeeisoxygen\view\GameUI.java
+F:\utsproject_4\hikinggame\src\main\java\com\coffeeisoxygen\model\player\Player.java
+F:\utsproject_4\hikinggame\src\main\java\com\coffeeisoxygen\model\tiles\TileType.java
+F:\utsproject_4\hikinggame\src\main\java\com\coffeeisoxygen\implementations\TileFactoryImpl.java
+F:\utsproject_4\hikinggame\src\main\java\com\coffeeisoxygen\model\tiles\Board.java
+F:\utsproject_4\hikinggame\src\main\java\com\coffeeisoxygen\model\tiles\FinishTile.java
+F:\utsproject_4\hikinggame\src\main\java\com\coffeeisoxygen\model\tiles\RouteTile.java
+F:\utsproject_4\hikinggame\src\main\java\com\coffeeisoxygen\model\tiles\DangerTile.java
+F:\utsproject_4\hikinggame\src\main\java\com\coffeeisoxygen\model\tiles\SafeTile.java
+F:\utsproject_4\hikinggame\src\main\java\com\coffeeisoxygen\interfaces\IBoardManager.java
