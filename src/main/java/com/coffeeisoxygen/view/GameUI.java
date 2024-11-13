@@ -14,7 +14,6 @@ public class GameUI {
         // Initialize the board with tiles
         Board board = new Board(5, 8);
         BoardViewModel viewModel = new BoardViewModel(board);
-        viewModel.registerObserver();
 
         // Create UI components
         MainFrame mainFrame = new MainFrame();

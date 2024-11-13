@@ -57,11 +57,21 @@ public class MapPanel extends JPanel {
     }
 
     public void refresh() {
-        for (int i = 0; i < viewModel.getBoardWidth(); i++) {
-            for (int j = 0; j < viewModel.getBoardHeight(); j++) {
-                buttons[i][j].setBackground(getTileColor(viewModel.getTile(i, j)));
+        int width = viewModel.getBoardWidth();
+        int height = viewModel.getBoardHeight();
+
+        // Reinitialize buttons if the board dimensions have changed
+        if (buttons.length != width || buttons[0].length != height) {
+            removeAll();
+            initializeButtons();
+        } else {
+            for (int i = 0; i < width; i++) {
+                for (int j = 0; j < height; j++) {
+                    buttons[i][j].setBackground(getTileColor(viewModel.getTile(i, j)));
+                }
             }
         }
+
         revalidate();
         repaint();
     }
