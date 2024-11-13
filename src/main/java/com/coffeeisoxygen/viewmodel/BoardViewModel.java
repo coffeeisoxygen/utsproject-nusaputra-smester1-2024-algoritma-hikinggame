@@ -1,37 +1,38 @@
 package com.coffeeisoxygen.viewmodel;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.coffeeisoxygen.interfaces.BoardObserver;
 import com.coffeeisoxygen.model.tiles.Board;
 import com.coffeeisoxygen.model.tiles.Tile;
 import com.coffeeisoxygen.model.tiles.TileType;
 
 public class BoardViewModel implements BoardObserver {
+
     private Board board;
-    private List<Runnable> observers = new ArrayList<>();
+    private Runnable observer;
 
-    public BoardViewModel(int width, int height) {
-        this.board = new Board(width, height);
-        this.board.addObserver(this);
+    // Private constructor to prevent direct instantiation
+    private BoardViewModel(Board board) {
+        this.board = board;
     }
 
-    public void initializeBoard(int width, int height) {
-        board.initialize(width, height);
-        notifyObservers();
+    // Factory method to create an instance and set up the observer
+    public static BoardViewModel create(int width, int height) {
+        Board board = new Board(width, height);
+        BoardViewModel viewModel = new BoardViewModel(board);
+        board.addObserver(viewModel);
+        return viewModel;
     }
 
-    public Tile[][] getTiles() {
-        return board.getTiles();
+    // Factory method to create an instance with default dimensions
+    public static BoardViewModel create() {
+        Board board = new Board();
+        BoardViewModel viewModel = new BoardViewModel(board);
+        board.addObserver(viewModel);
+        return viewModel;
     }
 
-    public int getBoardWidth() {
-        return board.getBoardWidth();
-    }
-
-    public int getBoardHeight() {
-        return board.getBoardHeight();
+    public void setBoardObserver(Runnable observer) {
+        this.observer = observer;
     }
 
     public Tile getTile(int x, int y) {
@@ -40,34 +41,26 @@ public class BoardViewModel implements BoardObserver {
 
     public void setTile(int x, int y, TileType tileType) {
         board.setTile(x, y, new Tile(x, y, tileType));
-        notifyObservers();
     }
 
-    public boolean validateBoard() {
-        return board.validateBoard();
-    }
-
-    public void shuffleTiles(TileType tileType, int count) {
-        board.shuffleTiles(tileType, count);
-        notifyObservers();
-    }
-
-    public void printBoard() {
-        board.printBoard();
+    public void updateBoardDimensions(int width, int height) {
+        this.board = new Board(width, height);
+        board.addObserver(this);
+        boardChanged();
     }
 
     @Override
     public void boardChanged() {
-        notifyObservers();
-    }
-
-    public void addObserver(Runnable observer) {
-        observers.add(observer);
-    }
-
-    private void notifyObservers() {
-        for (Runnable observer : observers) {
+        if (observer != null) {
             observer.run();
         }
+    }
+
+    public int getBoardWidth() {
+        return board.getWidth();
+    }
+
+    public int getBoardHeight() {
+        return board.getHeight();
     }
 }

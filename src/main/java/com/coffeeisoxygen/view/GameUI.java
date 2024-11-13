@@ -10,8 +10,8 @@ import com.coffeeisoxygen.viewmodel.BoardViewModel;
 
 public class GameUI {
     public static void initialize() {
-        // Initialize the BoardViewModel with default dimensions
-        BoardViewModel viewModel = new BoardViewModel(5, 8);
+        // Initialize the board with tiles using the factory method
+        BoardViewModel viewModel = BoardViewModel.create(5, 8);
 
         // Create UI components
         MainFrame mainFrame = new MainFrame();
@@ -40,7 +40,7 @@ public class GameUI {
         mainFrame.setVisible(true);
 
         // Add observer to refresh the map panel when the board changes
-        viewModel.addObserver(mapPanel::refresh);
+        viewModel.setBoardObserver(mapPanel::refresh);
     }
 
     public static void main(String[] args) {

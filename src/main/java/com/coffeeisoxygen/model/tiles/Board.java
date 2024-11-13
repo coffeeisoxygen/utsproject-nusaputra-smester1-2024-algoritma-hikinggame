@@ -7,6 +7,7 @@ import java.util.Random;
 import com.coffeeisoxygen.interfaces.BoardObserver;
 
 public class Board {
+
     private static final int DEFAULT_WIDTH = 5;
     private static final int DEFAULT_HEIGHT = 8;
 
@@ -14,56 +15,43 @@ public class Board {
     private int boardWidth, boardHeight;
     private List<BoardObserver> observers = new ArrayList<>();
 
+    // Constructor with optional dimensions
+    public Board(int width, int height) {
+        this.boardWidth = (width > 0) ? width : DEFAULT_WIDTH;
+        this.boardHeight = (height > 0) ? height : DEFAULT_HEIGHT;
+        this.tiles = new Tile[boardWidth][boardHeight];
+        setDefaultTiles();
+        notifyObservers();
+    }
+
     public Board() {
         this(DEFAULT_WIDTH, DEFAULT_HEIGHT);
     }
 
-    public Board(int width, int height) {
-        initialize(width, height);
-    }
-
-    public void initialize(int width, int height) {
-        this.boardWidth = width;
-        this.boardHeight = height;
-        this.tiles = new Tile[width][height];
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                setTile(i, j, new Tile(i, j, TileType.ROUTETILE));
+    // Set default tiles (start, finish, and route tiles)
+    private void setDefaultTiles() {
+        for (int i = 0; i < boardWidth; i++) {
+            for (int j = 0; j < boardHeight; j++) {
+                tiles[i][j] = new Tile(i, j, TileType.ROUTETILE);
             }
         }
-        setTile(0, 0, new Tile(0, 0, TileType.FINISHTILE));
-        setTile(width - 1, height - 1, new Tile(width - 1, height - 1, TileType.STARTTILE));
-        notifyObservers();
-    }
-
-    public void resetBoard() {
-        initialize(boardWidth, boardHeight);
+        tiles[0][0] = new Tile(0, 0, TileType.FINISHTILE);
+        tiles[boardWidth - 1][boardHeight - 1] = new Tile(boardWidth - 1, boardHeight - 1, TileType.STARTTILE);
     }
 
     public void setTile(int x, int y, Tile tile) {
-        if (x >= 0 && x < boardWidth && y >= 0 && y < boardHeight) {
+        if (isValidPosition(x, y)) {
             tiles[x][y] = tile;
             notifyObservers();
         }
     }
 
     public Tile getTile(int x, int y) {
-        if (x >= 0 && x < boardWidth && y >= 0 && y < boardHeight) {
-            return tiles[x][y];
-        }
-        return null;
+        return isValidPosition(x, y) ? tiles[x][y] : null;
     }
 
-    public Tile[][] getTiles() {
-        return tiles;
-    }
-
-    public int getBoardWidth() {
-        return boardWidth;
-    }
-
-    public int getBoardHeight() {
-        return boardHeight;
+    private boolean isValidPosition(int x, int y) {
+        return x >= 0 && x < boardWidth && y >= 0 && y < boardHeight;
     }
 
     public boolean validateBoard() {
@@ -93,26 +81,21 @@ public class Board {
         }
     }
 
-    public void printBoard() {
-        for (int i = 0; i < boardWidth; i++) {
-            for (int j = 0; j < boardHeight; j++) {
-                System.out.print(tiles[i][j].getTileType().name().charAt(0) + " ");
-            }
-            System.out.println();
-        }
-    }
-
     public void addObserver(BoardObserver observer) {
         observers.add(observer);
-    }
-
-    public void removeObserver(BoardObserver observer) {
-        observers.remove(observer);
     }
 
     private void notifyObservers() {
         for (BoardObserver observer : observers) {
             observer.boardChanged();
         }
+    }
+
+    public int getWidth() {
+        return boardWidth;
+    }
+
+    public int getHeight() {
+        return boardHeight;
     }
 }
