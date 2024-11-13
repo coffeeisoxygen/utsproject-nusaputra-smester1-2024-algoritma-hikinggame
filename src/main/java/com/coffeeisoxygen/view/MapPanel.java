@@ -32,7 +32,7 @@ public class MapPanel extends JPanel {
 
         for (int i = 0; i < viewModel.getBoardWidth(); i++) {
             for (int j = 0; j < viewModel.getBoardHeight(); j++) {
-                JButton button = new JButton();
+                JButton button = new JButton(i + "," + j);
                 button.setBackground(getTileColor(viewModel.getTile(i, j)));
                 buttons[i][j] = button;
 
@@ -45,12 +45,12 @@ public class MapPanel extends JPanel {
 
     private Color getTileColor(Tile tile) {
         if (tile == null) {
-            return Color.BLACK;
+            return Color.WHITE;
         }
         return switch (tile.getTileType()) {
         case STARTTILE -> Color.GREEN;
         case FINISHTILE -> Color.RED;
-        case SAFETILE -> Color.WHITE;
+        case SAFETILE -> Color.cyan;
         case DANGERTILE -> Color.ORANGE;
         case ROUTETILE -> Color.GRAY;
         default -> Color.BLACK;
