@@ -18,7 +18,7 @@ public class GameUI {
         MapPanel mapPanel = new MapPanel(viewModel);
         ControlPanel controlPanel = new ControlPanel(viewModel);
         StatusPanel statusPanel = new StatusPanel();
-        LegendPanel legendPanel = new LegendPanel();
+        // LegendPanel legendPanel = new LegendPanel();
 
         // Create a panel to hold status and control panels
         JPanel rightPanel = new JPanel(new BorderLayout());
@@ -32,7 +32,7 @@ public class GameUI {
         topSplitPane.setDividerLocation(600); // Set initial divider location
 
         JPanel bottomPanel = mainFrame.getBottomPanel();
-        bottomPanel.add(legendPanel, BorderLayout.CENTER);
+        // bottomPanel.add(legendPanel, BorderLayout.CENTER);
 
         // Set frame properties
         mainFrame.setSize(800, 600);
@@ -47,3 +47,5 @@ public class GameUI {
         initialize();
     }
 }
+
+// todo: Fix Image TOmorrow

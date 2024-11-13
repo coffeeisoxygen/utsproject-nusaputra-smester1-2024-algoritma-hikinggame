@@ -1,5 +1,13 @@
 package com.coffeeisoxygen.viewmodel;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.imageio.ImageIO;
+
 import com.coffeeisoxygen.interfaces.BoardObserver;
 import com.coffeeisoxygen.model.tiles.Board;
 import com.coffeeisoxygen.model.tiles.Tile;
@@ -12,10 +20,13 @@ public class BoardViewModel implements BoardObserver {
 
     private Board board;
     private Runnable observer;
+    private Map<String, BufferedImage> imageCache = new HashMap<>();
+    private Map<TileType, String> tileTypeToImagePath = new EnumMap<>(TileType.class);
 
     // Private constructor to prevent direct instantiation
     private BoardViewModel(Board board) {
         this.board = board;
+        initializeImagePaths();
     }
 
     // Factory method to create an instance and set up the observer
@@ -32,6 +43,28 @@ public class BoardViewModel implements BoardObserver {
         BoardViewModel viewModel = new BoardViewModel(board);
         board.addObserver(viewModel);
         return viewModel;
+    }
+
+    private void initializeImagePaths() {
+        tileTypeToImagePath.put(TileType.STARTTILE, "path/to/start_tile.png");
+        tileTypeToImagePath.put(TileType.FINISHTILE, "path/to/finish_tile.png");
+        tileTypeToImagePath.put(TileType.SAFETILE, "path/to/safe_tile.png");
+        tileTypeToImagePath.put(TileType.DANGERTILE, "path/to/danger_tile.png");
+        tileTypeToImagePath.put(TileType.ROUTETILE, "path/to/route_tile.png");
+    }
+
+    public BufferedImage getImage(TileType tileType) {
+        String imagePath = tileTypeToImagePath.get(tileType);
+        return imageCache.computeIfAbsent(imagePath, this::loadImage);
+    }
+
+    private BufferedImage loadImage(String imagePath) {
+        try {
+            return ImageIO.read(getClass().getResource(imagePath));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public Tile getTile(int x, int y) {

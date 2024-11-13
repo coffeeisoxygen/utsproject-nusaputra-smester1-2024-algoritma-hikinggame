@@ -1,32 +1,46 @@
 package com.coffeeisoxygen.model.tiles;
 
+import java.awt.image.BufferedImage;
+
 import com.coffeeisoxygen.model.player.Player;
 
 public class Tile {
-    private int x;
-    private int y;
+    private int tileX;
+    private int tileY;
     private TileType tileType;
+    private BufferedImage tileImage;
 
     public Tile(int x, int y, TileType tileType) {
-        this.x = x;
-        this.y = y;
+        this.tileX = x;
+        this.tileY = y;
         this.tileType = tileType;
     }
 
-    public int getX() {
-        return x;
+    public Tile(int x, int y, TileType tileType, BufferedImage tileImage) {
+        this.tileX = x;
+        this.tileY = y;
+        this.tileType = tileType;
+        this.tileImage = tileImage;
     }
 
-    public int getY() {
-        return y;
+    public int getTileX() {
+        return tileX;
+    }
+
+    public int getTileY() {
+        return tileY;
     }
 
     public TileType getTileType() {
         return tileType;
     }
 
-    public String getPosition() {
-        return "(" + x + ", " + y + ")";
+    public BufferedImage getImage() {
+        return tileImage;
+    }
+
+    public void setImage(BufferedImage image) {
+        this.tileImage = image;
     }
 
     public void interact(Player player) {
