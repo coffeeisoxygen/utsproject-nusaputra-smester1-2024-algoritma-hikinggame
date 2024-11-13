@@ -24,7 +24,7 @@ public class ControlPanel extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         generateMapButton = createButton("Generate Map", this::handleGenerateMap);
-        shuffleTileButton = createButton("Shuffle Tiles", this::handleShuffleTiles);
+        shuffleTileButton = createButton("Randomize Tiles", this::RandomizeTiles);
         playerSetButton = createButton("Player Settings", this::handlePlayerSettings);
         startButton = createButton("Start", this::handleStart);
         resetButton = createButton("Reset", this::handleReset);
@@ -60,7 +60,7 @@ public class ControlPanel extends JPanel {
                     viewModel.updateBoardDimensions(width, height);
                 } else {
                     showErrorDialog("Invalid dimensions. Width must be between 1 and " + viewModel.getMaxWidth() +
-                                    ", and height must be between 1 and " + viewModel.getMaxHeight() + ".");
+                            ", and height must be between 1 and " + viewModel.getMaxHeight() + ".");
                 }
             } catch (NumberFormatException ex) {
                 showErrorDialog("Invalid input. Please enter valid integers for width and height.");
@@ -72,8 +72,8 @@ public class ControlPanel extends JPanel {
         JOptionPane.showMessageDialog(this, message, "Error", JOptionPane.ERROR_MESSAGE);
     }
 
-    private void handleShuffleTiles(ActionEvent e) {
-        // Implement shuffle action here
+    private void RandomizeTiles(ActionEvent e) {
+        viewModel.randomizeTiles();
     }
 
     private void handlePlayerSettings(ActionEvent e) {

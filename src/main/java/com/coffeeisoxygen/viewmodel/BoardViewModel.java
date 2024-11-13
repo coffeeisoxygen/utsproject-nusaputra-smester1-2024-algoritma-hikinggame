@@ -34,12 +34,28 @@ public class BoardViewModel implements BoardObserver {
         return viewModel;
     }
 
-    public void setBoardObserver(Runnable observer) {
-        this.observer = observer;
-    }
-
     public Tile getTile(int x, int y) {
         return board.getTile(x, y);
+    }
+
+    public int getBoardWidth() {
+        return board.getBoardWidth();
+    }
+
+    public int getBoardHeight() {
+        return board.getBoardHeight();
+    }
+
+    public int getMaxWidth() {
+        return MAX_WIDTH;
+    }
+
+    public int getMaxHeight() {
+        return MAX_HEIGHT;
+    }
+
+    public void setBoardObserver(Runnable observer) {
+        this.observer = observer;
     }
 
     public void setTile(int x, int y, TileType tileType) {
@@ -62,12 +78,11 @@ public class BoardViewModel implements BoardObserver {
         }
     }
 
-    public int getMaxWidth() {
-        return MAX_WIDTH;
-    }
-
-    public int getMaxHeight() {
-        return MAX_HEIGHT;
+    public void randomizeTiles() {
+        board.randomizeTiles();
+        if (observer != null) { // ? MARK: just to make sure the observer are running /
+            observer.run();
+        }
     }
 
     @Override
@@ -75,13 +90,5 @@ public class BoardViewModel implements BoardObserver {
         if (observer != null) {
             observer.run();
         }
-    }
-
-    public int getBoardWidth() {
-        return board.getBoardWidth();
-    }
-
-    public int getBoardHeight() {
-        return board.getBoardHeight();
     }
 }
