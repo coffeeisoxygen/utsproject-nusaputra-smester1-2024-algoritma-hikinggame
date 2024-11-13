@@ -11,8 +11,8 @@ import com.coffeeisoxygen.viewmodel.BoardViewModel;
 
 public class GameUI {
     public static void initialize() {
-        // Initialize the board with tiles
-        Board board = new Board(5, 8);
+        // Initialize the board with default dimensions
+        Board board = new Board();
         BoardViewModel viewModel = new BoardViewModel(board);
 
         // Create UI components

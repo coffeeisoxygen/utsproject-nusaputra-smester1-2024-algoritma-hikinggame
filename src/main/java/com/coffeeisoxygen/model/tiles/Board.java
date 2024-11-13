@@ -6,10 +6,19 @@ import java.util.List;
 import com.coffeeisoxygen.interfaces.BoardObserver;
 
 public class Board {
+    private static final int DEFAULT_WIDTH = 5;
+    private static final int DEFAULT_HEIGHT = 8;
+
     private Tile[][] tiles;
     private int boardWidth, boardHeight;
     private List<BoardObserver> observers = new ArrayList<>();
 
+    // Default constructor with default dimensions
+    public Board() {
+        this(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+    }
+
+    // Constructor with specified dimensions
     public Board(int width, int height) {
         initialize(width, height);
     }
