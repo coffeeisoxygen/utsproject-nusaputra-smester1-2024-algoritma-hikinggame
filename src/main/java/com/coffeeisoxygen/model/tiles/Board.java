@@ -10,14 +10,17 @@ public class Board {
     private int boardWidth, boardHeight;
     private List<BoardObserver> observers = new ArrayList<>();
 
-    // Constructor
     public Board(int width, int height) {
+        initialize(width, height);
+    }
+
+    public void initialize(int width, int height) {
         this.boardWidth = width;
         this.boardHeight = height;
         this.tiles = new Tile[width][height];
+        notifyObservers();
     }
 
-    // Getters and Setters
     public Tile[][] getTiles() {
         return tiles;
     }

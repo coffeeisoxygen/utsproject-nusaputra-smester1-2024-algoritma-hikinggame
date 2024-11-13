@@ -16,22 +16,22 @@ public class MapPanel extends JPanel {
 
     public MapPanel(BoardViewModel viewModel) {
         this.viewModel = viewModel;
+        initializeButtons();
+    }
+
+    private void initializeButtons() {
         int width = viewModel.getBoardWidth();
         int height = viewModel.getBoardHeight();
         this.buttons = new JButton[width][height];
 
         setLayout(new GridBagLayout());
-        initializeButtons();
-    }
-
-    private void initializeButtons() {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
 
-        for (int i = 0; i < viewModel.getBoardWidth(); i++) {
-            for (int j = 0; j < viewModel.getBoardHeight(); j++) {
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
                 JButton button = new JButton(i + "," + j);
                 button.setBackground(getTileColor(viewModel.getTile(i, j)));
                 buttons[i][j] = button;

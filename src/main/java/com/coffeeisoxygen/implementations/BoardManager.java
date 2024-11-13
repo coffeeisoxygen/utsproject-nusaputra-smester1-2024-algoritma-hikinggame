@@ -16,7 +16,7 @@ public class BoardManager implements IBoardManager {
 
     @Override
     public void initializeBoard(int width, int height) {
-        board = new Board(width, height);
+        board.initialize(width, height);
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 board.setTile(i, j, createTile(i, j, TileType.ROUTETILE));
