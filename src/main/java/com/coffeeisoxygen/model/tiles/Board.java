@@ -6,7 +6,6 @@ import java.util.List;
 import com.coffeeisoxygen.interfaces.BoardObserver;
 
 public class Board {
-
     private Tile[][] tiles;
     private int boardWidth, boardHeight;
     private List<BoardObserver> observers = new ArrayList<>();
@@ -36,6 +35,13 @@ public class Board {
             return tiles[x][y];
         }
         return null;
+    }
+
+    public void setTile(int x, int y, Tile tile) {
+        if (x >= 0 && x < boardWidth && y >= 0 && y < boardHeight) {
+            tiles[x][y] = tile;
+            notifyObservers();
+        }
     }
 
     public void addObserver(BoardObserver observer) {
