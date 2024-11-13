@@ -59,7 +59,8 @@ public class ControlPanel extends JPanel {
             int height = Integer.parseInt(heightStr);
             viewModel.initializeBoard(width, height);
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Invalid input. Please enter valid integers for width and height.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Invalid input. Please enter valid integers for width and height.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

@@ -1,5 +1,8 @@
 package com.coffeeisoxygen.viewmodel;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.coffeeisoxygen.implementations.BoardManager;
 import com.coffeeisoxygen.interfaces.BoardObserver;
 import com.coffeeisoxygen.model.tiles.Board;
@@ -8,19 +11,20 @@ import com.coffeeisoxygen.model.tiles.Tile;
 public class BoardViewModel implements BoardObserver {
     private Board board;
     private BoardManager boardManager;
+    private List<Runnable> observers = new ArrayList<>();
 
     public BoardViewModel(Board board) {
         this.board = board;
         this.boardManager = new BoardManager(board);
-        initializeObserver();
-    }
-
-    private void initializeObserver() {
-        this.board.addObserver(this);
+        }
+    
+        public void registerObserver() {
+            this.board.addObserver(this);
     }
 
     public void initializeBoard(int width, int height) {
         boardManager.initializeBoard(width, height);
+        notifyObservers();
     }
 
     public Tile[][] getTiles() {
@@ -41,7 +45,16 @@ public class BoardViewModel implements BoardObserver {
 
     @Override
     public void boardChanged() {
-        // Update the UI or perform other actions when the board changes
-        System.out.println("Board has changed!");
+        notifyObservers();
+    }
+
+    public void addObserver(Runnable observer) {
+        observers.add(observer);
+    }
+
+    private void notifyObservers() {
+        for (Runnable observer : observers) {
+            observer.run();
+        }
     }
 }

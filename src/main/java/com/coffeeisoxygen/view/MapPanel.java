@@ -48,12 +48,21 @@ public class MapPanel extends JPanel {
             return Color.WHITE;
         }
         return switch (tile.getTileType()) {
-        case STARTTILE -> Color.GREEN;
-        case FINISHTILE -> Color.RED;
-        case SAFETILE -> Color.cyan;
-        case DANGERTILE -> Color.ORANGE;
-        case ROUTETILE -> Color.GRAY;
-        default -> Color.BLACK;
+            case STARTTILE -> Color.GREEN;
+            case FINISHTILE -> Color.RED;
+            case SAFETILE -> Color.BLUE;
+            case DANGERTILE -> Color.ORANGE;
+            case ROUTETILE -> Color.GRAY;
         };
+    }
+
+    public void refresh() {
+        for (int i = 0; i < viewModel.getBoardWidth(); i++) {
+            for (int j = 0; j < viewModel.getBoardHeight(); j++) {
+                buttons[i][j].setBackground(getTileColor(viewModel.getTile(i, j)));
+            }
+        }
+        revalidate();
+        repaint();
     }
 }

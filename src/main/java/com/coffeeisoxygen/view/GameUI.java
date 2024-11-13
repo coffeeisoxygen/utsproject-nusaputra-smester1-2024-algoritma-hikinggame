@@ -6,7 +6,6 @@ import java.awt.Dimension;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
-import com.coffeeisoxygen.implementations.BoardManager;
 import com.coffeeisoxygen.model.tiles.Board;
 import com.coffeeisoxygen.viewmodel.BoardViewModel;
 
@@ -14,8 +13,8 @@ public class GameUI {
     public static void initialize() {
         // Initialize the board with tiles
         Board board = new Board(5, 8);
-        BoardManager boardManager = new BoardManager();
-        BoardViewModel viewModel = new BoardViewModel(board, boardManager);
+        BoardViewModel viewModel = new BoardViewModel(board);
+        viewModel.registerObserver();
 
         // Create UI components
         MainFrame mainFrame = new MainFrame();
@@ -42,6 +41,9 @@ public class GameUI {
         mainFrame.setSize(800, 600);
         mainFrame.setMinimumSize(new Dimension(400, 300)); // Set minimum resize dimensions
         mainFrame.setVisible(true);
+
+        // Add observer to refresh the map panel when the board changes
+        viewModel.addObserver(mapPanel::refresh);
     }
 
     public static void main(String[] args) {
