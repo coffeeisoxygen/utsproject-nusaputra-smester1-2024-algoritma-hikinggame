@@ -6,13 +6,13 @@ import com.coffeeisoxygen.interfaces.IBoardManager;
 import com.coffeeisoxygen.model.tiles.Tile;
 import com.coffeeisoxygen.model.tiles.TileType;
 
-public class BoardServiceImpl implements IBoardManager {
+public class TileBoardManager implements IBoardManager {
 
     private Tile[][] board;
     private int width, height;
     private IBoardManager tileFactory;
 
-    public BoardServiceImpl(IBoardManager tileFactory) {
+    public TileBoardManager(IBoardManager tileFactory) {
         this.tileFactory = tileFactory;
     }
 

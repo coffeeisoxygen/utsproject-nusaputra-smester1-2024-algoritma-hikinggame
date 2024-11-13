@@ -3,28 +3,30 @@ package com.coffeeisoxygen.view;
 import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
 public class MainFrame extends JFrame {
-    private JSplitPane mainSplitPane;
-    private JSplitPane sideSplitPane;
+    private JSplitPane topSplitPane;
+    private JPanel bottomPanel;
 
     public MainFrame() {
         setTitle("Game UI");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        mainSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-        sideSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+        topSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+        bottomPanel = new JPanel(new BorderLayout());
 
-        add(mainSplitPane, BorderLayout.CENTER);
+        add(topSplitPane, BorderLayout.CENTER);
+        add(bottomPanel, BorderLayout.SOUTH);
     }
 
-    public JSplitPane getMainSplitPane() {
-        return mainSplitPane;
+    public JSplitPane getTopSplitPane() {
+        return topSplitPane;
     }
 
-    public JSplitPane getSideSplitPane() {
-        return sideSplitPane;
+    public JPanel getBottomPanel() {
+        return bottomPanel;
     }
 }
