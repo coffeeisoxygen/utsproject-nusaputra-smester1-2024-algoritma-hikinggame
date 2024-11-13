@@ -1,10 +1,12 @@
 package com.coffeeisoxygen;
 
+import com.coffeeisoxygen.view.GameUI;
+
 public class App {
 
     public static void main(String[] args) {
 
-        System.out.println("Hello World!");
+        GameUI.initialize();
 
     }
 }

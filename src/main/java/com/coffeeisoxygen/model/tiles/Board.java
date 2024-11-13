@@ -1,12 +1,5 @@
 package com.coffeeisoxygen.model.tiles;
 
-/*
- * Author: A.Hasan Maki
- * GitHub: @coffeisoxygen
- * Date: 2024-11-12
- * File: Board.java
- * Description: Board class that contains the tiles
- */
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,16 +36,6 @@ public class Board {
             return tiles[x][y];
         }
         return null;
-    }
-
-    // Method to print the board (for debugging or UI purposes)
-    public void printBoard() {
-        for (int i = 0; i < boardWidth; i++) {
-            for (int j = 0; j < boardHeight; j++) {
-                System.out.print(tiles[i][j].getTileType());
-            }
-            System.out.println();
-        }
     }
 
     public void addObserver(BoardObserver observer) {

@@ -10,7 +10,7 @@ import com.coffeeisoxygen.model.tiles.Board;
 import com.coffeeisoxygen.viewmodel.BoardViewModel;
 
 public class GameUI {
-    public static void main(String[] args) {
+    public static void initialize() {
         // Initialize the board with tiles
         Board board = new Board(5, 8);
         BoardViewModel viewModel = new BoardViewModel(board);
@@ -40,5 +40,9 @@ public class GameUI {
         mainFrame.setSize(800, 600);
         mainFrame.setMinimumSize(new Dimension(400, 300)); // Set minimum resize dimensions
         mainFrame.setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        initialize();
     }
 }
