@@ -7,6 +7,9 @@ import com.coffeeisoxygen.model.tiles.TileType;
 
 public class BoardViewModel implements BoardObserver {
 
+    private static final int MAX_WIDTH = 15;
+    private static final int MAX_HEIGHT = 10;
+
     private Board board;
     private Runnable observer;
 
@@ -43,10 +46,28 @@ public class BoardViewModel implements BoardObserver {
         board.setTile(x, y, new Tile(x, y, tileType));
     }
 
+    public boolean validateBoardDimensions(int width, int height) {
+        return width > 0 && width <= MAX_WIDTH && height > 0 && height <= MAX_HEIGHT;
+    }
+
     public void updateBoardDimensions(int width, int height) {
-        this.board = new Board(width, height);
-        board.addObserver(this);
-        boardChanged();
+        if (validateBoardDimensions(width, height)) {
+            this.board = new Board(width, height);
+            board.addObserver(this);
+            boardChanged();
+        } else {
+            if (observer != null) {
+                observer.run();
+            }
+        }
+    }
+
+    public int getMaxWidth() {
+        return MAX_WIDTH;
+    }
+
+    public int getMaxHeight() {
+        return MAX_HEIGHT;
     }
 
     @Override
@@ -57,10 +78,10 @@ public class BoardViewModel implements BoardObserver {
     }
 
     public int getBoardWidth() {
-        return board.getWidth();
+        return board.getBoardWidth();
     }
 
     public int getBoardHeight() {
-        return board.getHeight();
+        return board.getBoardHeight();
     }
 }

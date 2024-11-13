@@ -2,7 +2,6 @@ package com.coffeeisoxygen.view;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -12,55 +11,80 @@ import javax.swing.JPanel;
 import com.coffeeisoxygen.viewmodel.BoardViewModel;
 
 public class ControlPanel extends JPanel {
+
     private final JButton generateMapButton;
     private final JButton shuffleTileButton;
     private final JButton playerSetButton;
     private final JButton startButton;
     private final JButton resetButton;
-    private BoardViewModel viewModel;
+    private final BoardViewModel viewModel;
 
     public ControlPanel(BoardViewModel viewModel) {
         this.viewModel = viewModel;
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        generateMapButton = createButton("Generate Map");
-        shuffleTileButton = createButton("Shuffle Tiles");
-        playerSetButton = createButton("Player Settings");
-        startButton = createButton("Start");
-        resetButton = createButton("Reset");
+        generateMapButton = createButton("Generate Map", this::handleGenerateMap);
+        shuffleTileButton = createButton("Shuffle Tiles", this::handleShuffleTiles);
+        playerSetButton = createButton("Player Settings", this::handlePlayerSettings);
+        startButton = createButton("Start", this::handleStart);
+        resetButton = createButton("Reset", this::handleReset);
 
         add(generateMapButton);
         add(shuffleTileButton);
         add(playerSetButton);
         add(startButton);
         add(resetButton);
-
-        generateMapButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                addInputPrompt();
-            }
-        });
     }
 
-    private JButton createButton(String text) {
+    private JButton createButton(String text, java.awt.event.ActionListener action) {
         JButton button = new JButton(text);
         button.setAlignmentX(JButton.CENTER_ALIGNMENT);
         button.setMaximumSize(new Dimension(Integer.MAX_VALUE, button.getMinimumSize().height));
+        button.addActionListener(action);
         return button;
     }
 
-    private void addInputPrompt() {
-        String widthStr = JOptionPane.showInputDialog(this, "Enter board width:", "5");
-        String heightStr = JOptionPane.showInputDialog(this, "Enter board height:", "8");
+    private void handleGenerateMap(ActionEvent e) {
+        promptBoardDimensions();
+    }
 
-        try {
-            int width = Integer.parseInt(widthStr);
-            int height = Integer.parseInt(heightStr);
-            viewModel.updateBoardDimensions(width, height);
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Invalid input. Please enter valid integers for width and height.",
-                    "Error", JOptionPane.ERROR_MESSAGE);
+    private void promptBoardDimensions() {
+        String widthStr = JOptionPane.showInputDialog(this, "Enter board width:", viewModel.getBoardWidth());
+        String heightStr = JOptionPane.showInputDialog(this, "Enter board height:", viewModel.getBoardHeight());
+
+        if (widthStr != null && heightStr != null) {
+            try {
+                int width = Integer.parseInt(widthStr);
+                int height = Integer.parseInt(heightStr);
+                if (viewModel.validateBoardDimensions(width, height)) {
+                    viewModel.updateBoardDimensions(width, height);
+                } else {
+                    showErrorDialog("Invalid dimensions. Width must be between 1 and " + viewModel.getMaxWidth() +
+                                    ", and height must be between 1 and " + viewModel.getMaxHeight() + ".");
+                }
+            } catch (NumberFormatException ex) {
+                showErrorDialog("Invalid input. Please enter valid integers for width and height.");
+            }
         }
+    }
+
+    private void showErrorDialog(String message) {
+        JOptionPane.showMessageDialog(this, message, "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    private void handleShuffleTiles(ActionEvent e) {
+        // Implement shuffle action here
+    }
+
+    private void handlePlayerSettings(ActionEvent e) {
+        // Implement player settings action here
+    }
+
+    private void handleStart(ActionEvent e) {
+        // Implement start action here
+    }
+
+    private void handleReset(ActionEvent e) {
+        // Implement reset action here
     }
 }
