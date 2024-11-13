@@ -11,13 +11,26 @@ public class Board {
     private List<BoardObserver> observers = new ArrayList<>();
 
     public Board(int width, int height) {
-        initialize(width, height);
+        this.boardWidth = width;
+        this.boardHeight = height;
+        this.tiles = new Tile[width][height];
+        notifyObservers();
     }
 
     public void initialize(int width, int height) {
         this.boardWidth = width;
         this.boardHeight = height;
         this.tiles = new Tile[width][height];
+        notifyObservers();
+    }
+
+    public void resetBoard() {
+        initialize(boardWidth, boardHeight);
+    }
+
+    public void placeStartAndFinishTiles(Tile startTile, Tile finishTile) {
+        tiles[0][0] = finishTile;
+        tiles[boardWidth - 1][boardHeight - 1] = startTile;
         notifyObservers();
     }
 

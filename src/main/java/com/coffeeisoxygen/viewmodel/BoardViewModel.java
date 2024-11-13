@@ -7,6 +7,7 @@ import com.coffeeisoxygen.implementations.BoardManager;
 import com.coffeeisoxygen.interfaces.BoardObserver;
 import com.coffeeisoxygen.model.tiles.Board;
 import com.coffeeisoxygen.model.tiles.Tile;
+import com.coffeeisoxygen.model.tiles.TileType;
 
 public class BoardViewModel implements BoardObserver {
     private Board board;
@@ -16,14 +17,16 @@ public class BoardViewModel implements BoardObserver {
     public BoardViewModel(Board board) {
         this.board = board;
         this.boardManager = new BoardManager(board);
-        }
-    
-        public void registerObserver() {
-            this.board.addObserver(this);
+    }
+
+    public void registerObserver() {
+        this.board.addObserver(this);
     }
 
     public void initializeBoard(int width, int height) {
-        boardManager.initializeBoard(width, height);
+        board.initialize(width, height);
+        boardManager.setTile(width - 1, height - 1, TileType.STARTTILE);
+        boardManager.setTile(0, 0, TileType.FINISHTILE);
         notifyObservers();
     }
 
