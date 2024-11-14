@@ -1,16 +1,18 @@
 package com.coffeeisoxygen.view;
 
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import com.coffeeisoxygen.model.tiles.Tile;
 import com.coffeeisoxygen.model.tiles.TileType;
+import com.coffeeisoxygen.utils.ImageUtils;
 import com.coffeeisoxygen.viewmodel.BoardViewModel;
 
 public class MapPanel extends JPanel {
@@ -20,6 +22,7 @@ public class MapPanel extends JPanel {
     public MapPanel(BoardViewModel viewModel) {
         this.viewModel = viewModel;
         initializeButtons();
+        initializeUI();
     }
 
     private void initializeButtons() {
@@ -45,8 +48,10 @@ public class MapPanel extends JPanel {
     }
 
     private JButton createButton(int i, int j) {
-        JButton button = new JButton(i + "," + j);
-        button.setBackground(getTileColor(viewModel.getTile(i, j)));
+        JButton button = new JButton();
+        TileType tileType = viewModel.getTile(i, j).getTileType();
+        Image resizedImage = ImageManager.getResizedImage(tileType, 50, 50); // Resize to 50x50 pixels
+        button.setIcon(new ImageIcon(resizedImage));
         button.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -56,53 +61,41 @@ public class MapPanel extends JPanel {
         return button;
     }
 
-    private Color getTileColor(Tile tile) {
-        if (tile == null) {
-            return Color.WHITE;
+    private void initializeUI() {
+        setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+
+        for (int i = 0; i < viewModel.getBoardWidth(); i++) {
+            for (int j = 0; j < viewModel.getBoardHeight(); j++) {
+                gbc.gridx = i;
+                gbc.gridy = j;
+                add(buttons[i][j], gbc);
+            }
         }
-        return switch (tile.getTileType()) {
-            case STARTTILE -> Color.GREEN;
-            case FINISHTILE -> Color.RED;
-            case SAFETILE -> Color.BLUE;
-            case DANGERTILE -> Color.ORANGE;
-            case ROUTETILE -> Color.GRAY;
-            default -> Color.WHITE;
-        };
     }
 
     private void shuffleTileType(int x, int y) {
-        Tile tile = viewModel.getTile(x, y);
-        if (tile != null) {
-            // Acak TileType (Selain STARTTILE dan FINISHTILE)
-            TileType newTileType = randomizeTileType();
-            viewModel.setTile(x, y, newTileType); // Update di viewModel
-            buttons[x][y].setBackground(getTileColor(viewModel.getTile(x, y))); // Update tampilan tombol
-        }
+        // Handle tile type shuffling logic here
+        // For example, you can change the tile type and update the button icon
+        TileType newTileType = randomizeTileType();
+        viewModel.setTile(x, y, newTileType);
+        BufferedImage newImage = ImageManager.getImage(newTileType);
+        Image resizedImage = ImageUtils.resizeImage(newImage, 50, 50); // Resize to 50x50 pixels
+        buttons[x][y].setIcon(new ImageIcon(resizedImage));
     }
 
     private TileType randomizeTileType() {
-        // Mengacak antara DANGERTILE, SAFETILE, dan ROUTETILE
-        TileType[] tileTypes = { TileType.DANGERTILE, TileType.SAFETILE, TileType.ROUTETILE };
-        int randomIndex = (int) (Math.random() * tileTypes.length);
-        return tileTypes[randomIndex];
+        // Implement logic to randomize and return a new TileType
+        TileType[] tileTypes = TileType.values();
+        return tileTypes[(int) (Math.random() * tileTypes.length)];
     }
 
     public void refresh() {
-        int width = viewModel.getBoardWidth();
-        int height = viewModel.getBoardHeight();
-
-        // Reinitialize buttons jika ukuran board berubah
-        if (buttons.length != width || buttons[0].length != height) {
-            removeAll();
-            initializeButtons();
-        } else {
-            for (int i = 0; i < width; i++) {
-                for (int j = 0; j < height; j++) {
-                    buttons[i][j].setBackground(getTileColor(viewModel.getTile(i, j)));
-                }
-            }
-        }
-
+        removeAll();
+        initializeButtons();
         revalidate();
         repaint();
     }
