@@ -99,10 +99,10 @@ public class Board {
         }
 
         // Place Start Tile at a specific position (e.g., top-left corner)
-        setTile(0, 0, new Tile(0, 0, TileType.STARTTILE));
+        setTile(0, 0, new Tile(0, 0, TileType.FINISHTILE));
 
         // Place Finish Tile at a specific position (e.g., bottom-right corner)
-        setTile(boardWidth - 1, boardHeight - 1, new Tile(boardWidth - 1, boardHeight - 1, TileType.FINISHTILE));
+        setTile(boardWidth - 1, boardHeight - 1, new Tile(boardWidth - 1, boardHeight - 1, TileType.STARTTILE));
     }
 
     public void addObserver(BoardObserver observer) {
